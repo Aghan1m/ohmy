@@ -1,0 +1,90 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+APPEND	def.h	4;"	d
+BUFLEN	def.h	3;"	d
+Bcstype	def.h	/^} Bcstype;$/;"	t	typeref:enum:Bcstype_t
+Bcstype_t	def.h	/^typedef enum Bcstype_t {  $/;"	g
+CC	build/Makefile	/^CC = gcc$/;"	m
+CDSECT_start	def.h	/^    CDSECT_start,$/;"	e	enum:Bcstype_t
+CFLAGS	build/Makefile	/^CFLAGS = -g -O2 -Wall$/;"	m
+COMMENT_start	def.h	/^    COMMENT_start$/;"	e	enum:Bcstype_t
+Content	def.h	/^    Content,$/;"	e	enum:Bcstype_t
+EXEC	build/Makefile	/^EXEC := XMLParser$/;"	m
+Etag_start	def.h	/^    Etag_start,$/;"	e	enum:Bcstype_t
+FINISH_STAGE1	def.h	/^    int FINISH_STAGE1;                  \/\/第1阶段处理完置1$/;"	m	struct:bufferarry_t
+FINISH_STAGE2	def.h	/^    int FINISH_STAGE2;                  \/\/第2阶段处理完置1$/;"	m	struct:bufferarry_t
+FINISH_STAGE3	def.h	/^    int FINISH_STAGE3;                  \/\/第3阶段处理完置1$/;"	m	struct:bufferarry_t
+LDFLAGS	build/Makefile	/^LDFLAGS = -lpthread$/;"	m
+ListNode	postprocess.c	/^lab* ListNode(int number, lable* lnode){                                            \/\/创建非空栈转移的链表节点$/;"	f
+NAMELEN	def.h	5;"	d
+PI_start	def.h	/^    PI_start,$/;"	e	enum:Bcstype_t
+Pop	processing.c	/^lable* Pop(stack *st){                              \/\/出栈操作(出栈后记得Free释放掉)$/;"	f
+Poplab	postprocess.c	/^lab* Poplab(stacklab *st){                                  \/\/出栈操作(出栈后记得Free释放掉)$/;"	f
+Push	processing.c	/^int Push(stack *st, lable *node){                   \/\/入栈操作$/;"	f
+Pushlab	postprocess.c	/^void Pushlab(stacklab *st, lab *node){                      \/\/入栈操作$/;"	f
+SRC_ROOT	build/Makefile	/^SRC_ROOT = ..$/;"	m
+STACKSIZE	def.h	6;"	d
+START_STAGE1	def.h	/^    int START_STAGE1;                   \/\/第1阶段开始处理该块时置1$/;"	m	struct:bufferarry_t
+START_STAGE2	def.h	/^    int START_STAGE2;                   \/\/第2阶段开始处理该块时置1$/;"	m	struct:bufferarry_t
+START_STAGE3	def.h	/^    int START_STAGE3;                   \/\/第3阶段开始处理该块时置1$/;"	m	struct:bufferarry_t
+Stag_start	def.h	/^    Stag_start,$/;"	e	enum:Bcstype_t
+THREADNUM	def.h	7;"	d
+addLabNode	postprocess.c	/^lab* addLabNode(lab* last, lable* l){                                                \/\/创建栈转移数据节点数据$/;"	f
+analizeBlock	preprocess.c	/^bufferarray* analizeBlock(bufferarray *block, int blocknum, int buflen){         \/\/分析数据块，找到个标签的位置并存入链表中$/;"	f
+arr	def.h	/^} arr;$/;"	t	typeref:struct:restarr_t
+arrhead	def.h	/^arr* arrhead;                           \/\/全局变量$/;"	v
+bcs	def.h	/^} bcs;$/;"	t	typeref:struct:bcs_t
+bcs_t	def.h	/^typedef struct bcs_t {                   \/\/标签节点的数据结构$/;"	s
+bcsarr	def.h	/^    bcs *bcsarr;                        \/\/识别标签后存放结果的链表$/;"	m	struct:bufferarry_t
+bcsnode	preprocess.c	/^bcs* bcsnode(Bcstype type,int offset){                              \/\/创建标记信息链表$/;"	f
+blocknum	def.h	/^    int blocknum;                       \/\/该标签所在的块号$/;"	m	struct:restarr_t
+bt	def.h	/^    Bcstype bt;                         \/\/该标签的类型$/;"	m	struct:bcs_t
+bt	def.h	/^    Bcstype bt;$/;"	m	struct:lab_t
+bt	def.h	/^    Bcstype bt;$/;"	m	struct:lable_t
+buf	def.h	/^    char buf[BUFLEN + APPEND];          \/\/存放读入的数据$/;"	m	struct:bufferarry_t
+bufferarray	def.h	/^} bufferarray;$/;"	t	typeref:struct:bufferarry_t
+bufferarry_t	def.h	/^typedef struct bufferarry_t{            \/\/缓冲区块的数据结构$/;"	s
+buflen	def.h	/^    int buflen;                         \/\/缓冲区所存数据长度$/;"	m	struct:bufferarry_t
+bufnum	def.h	/^    int bufnum;                         \/\/缓冲块块号$/;"	m	struct:bufferarry_t
+core_OBJS	build/Makefile	/^core_OBJS := $(core_SRCS:%.c=%.o)$/;"	m
+creatData	processing.c	/^lable* creatData(char *tagName, Bcstype bt){        \/\/创建一个栈数据结点并赋值$/;"	f
+creatLabStack	postprocess.c	/^stacklab* creatLabStack(){$/;"	f
+creatListNode	postprocess.c	/^arr* creatListNode(int number){                                                              \/\/创建链表头节点$/;"	f
+creatStack	processing.c	/^stack* creatStack(){                                \/\/创建并初始化栈$/;"	f
+data	def.h	/^    lab *data;                          \/\/该标签类型$/;"	m	struct:restarr_t
+data	def.h	/^    lab *data[STACKSIZE * 30];          \/\/栈的数据(标签名字、标签类型)$/;"	m	struct:stack_lab
+data	def.h	/^    lable *data[STACKSIZE];             \/\/栈的数据(标签名字、标签类型)$/;"	m	struct:stack_t
+exec_OBJS	build/Makefile	/^exec_OBJS := $(exec_SRCS:%.c=%.o)$/;"	m
+getTagName	processing.c	/^char* getTagName(char* strarr, char* str, Bcstype bt){              \/\/提取标签名$/;"	f
+getname	processing.c	/^char* getname(char* strarr, char* str, char ch){                    \/\/提取表签名$/;"	f
+lab	def.h	/^} lab;$/;"	t	typeref:struct:lab_t
+lab_t	def.h	/^typedef struct lab_t{                   \/\/链表节点内数据的数据结构$/;"	s
+lable	def.h	/^} lable;$/;"	t	typeref:struct:lable_t
+lable_t	def.h	/^typedef struct lable_t{                 \/\/栈内数据的数据结构$/;"	s
+main	main.c	/^int main(int argc, char ** argv)$/;"	f
+mallocBuffer	preprocess.c	/^bufferarray* mallocBuffer(){                                        \/\/申请缓冲区并初始化$/;"	f
+mutex	def.h	/^    pthread_mutex_t mutex;              \/\/互斥锁$/;"	m	struct:bufferarry_t
+next	def.h	/^    struct bcs_t *next;$/;"	m	struct:bcs_t	typeref:struct:bcs_t::bcs_t
+next	def.h	/^    struct bufferarry_t *next;          \/\/下一个缓冲区块指针$/;"	m	struct:bufferarry_t	typeref:struct:bufferarry_t::bufferarry_t
+next	def.h	/^    struct lab_t *next;$/;"	m	struct:lab_t	typeref:struct:lab_t::lab_t
+offset	def.h	/^    int offset;                         \/\/相对于该数据块的偏移$/;"	m	struct:bcs_t
+printEnum	main.c	/^char* printEnum(Bcstype type){$/;"	f
+restarr_t	def.h	/^typedef struct restarr_t{               \/\/数组内数据的数据结构$/;"	s
+stack	def.h	/^} stack;$/;"	t	typeref:struct:stack_t
+stackInOut	processing.c	/^void stackInOut(bufferarray *block, char* loc, Bcstype bt, stack* st, bcs* r){$/;"	f
+stackMatching	processing.c	/^void stackMatching(bufferarray *block){                                     \/\/每个缓存块内的栈匹配$/;"	f
+stack_lab	def.h	/^typedef struct stack_lab{$/;"	s
+stack_t	def.h	/^typedef struct stack_t{                 \/\/栈的数据结构$/;"	s
+stacklab	def.h	/^} stacklab;$/;"	t	typeref:struct:stack_lab
+step2	processing.c	/^void* step2(void* arg){$/;"	f
+step3	postprocess.c	/^int step3(arr* listarr, int countblock){$/;"	f
+strCmp	preprocess.c	/^int strCmp(char *str,int start,int len,char str2[]){                \/\/字符串比较$/;"	f
+taglen	def.h	/^    int taglen;                         \/\/该标签的长度（计算结束位置）$/;"	m	struct:bcs_t
+tagname	def.h	/^    char tagname[NAMELEN];$/;"	m	struct:lab_t
+tagname	def.h	/^    char tagname[NAMELEN];$/;"	m	struct:lable_t
+top	def.h	/^    int top;                            \/\/栈的指针$/;"	m	struct:stack_lab
+top	def.h	/^    int top;                            \/\/栈的指针$/;"	m	struct:stack_t
