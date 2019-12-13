@@ -9,48 +9,50 @@ int main(int argc, char ** argv)
     pthread_t pt[THREADNUM];
     int result[THREADNUM];
     int readCount, blocknum=0;
-    bufferarray *bufhead=NULL,*buf,*tmp;
+    bufferarray *bufhead = NULL;
+    bufferarray *buf, *tmp;
     FILE *fp;
-    //fp = fopen("../test/test.xml","r");
+	
+	// open xml file
+    // fp = fopen("../test/test.xml","r");
     fp = fopen(argv[1],"r");
 
-    //读取申请第一个缓冲块
+    // first buffer
     tmp = mallocBuffer();
 
-    //循环读入数据到缓冲区并进行第一阶段的处理
-    while((readCount=fread(tmp->buf,sizeof(char),BUFLEN,fp))>0){
-        if(blocknum > 0)
-        {       //中间的缓存块链表的链接
+    // read data to buffer and analyse
+    while((readCount = fread(tmp->buf, sizeof(char), BUFLEN, fp)) > 0) {
+        if(blocknum > 0) {
             buf->next = analizeBlock(tmp, blocknum++, readCount);
             buf = buf->next;
-        }else{  //第一个缓冲区作为缓冲区链表头部的处理
+        } else{  // handle first buffer
             bufhead = analizeBlock(tmp, blocknum++, readCount);
             buf = bufhead;
         }
         tmp = mallocBuffer();
     }
     fclose(fp);
-    printf("\n\t第一阶段预处理结束! 划分文件块%d个！\n\n", blocknum);
+    printf("\n\tThe first preprocessing work done! Divide data into %d blocks！\n\n", blocknum);
 
-    //输出测试第一阶段的结果
-    bcs *r;
-    buf = bufhead;
-    while(buf != NULL){
-        r = buf->bcsarr;
-        printf("开始第%d块\n",buf->bufnum);
-        while(r != NULL){
-            printf("blocknumber [%d], offset [%d], Tagtype [%s]\n", buf->bufnum, r->offset, printEnum(r->bt));
-            r = r->next;
-        }
-        buf = buf->next;
-    }
+// test preprocessing
+//    bcs *r;
+//    buf = bufhead;
+//    while(buf != NULL){
+//        r = buf->bcsarr;
+//        printf("start block nums:%d\n",buf->bufnum);
+//        while(r != NULL){
+//            printf("blocknumber [%d], offset [%d], Tagtype [%s]\n", buf->bufnum, r->offset, printEnum(r->bt));
+//            r = r->next;
+//        }
+//        buf = buf->next;
+//    }
 
 // ---------------------------------------------
 
 
 }
 
-//打印相应标签类型
+// print tag
 char* printEnum(Bcstype type){
     switch(type){
         case Stag_start:

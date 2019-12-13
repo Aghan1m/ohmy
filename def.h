@@ -1,57 +1,64 @@
 #include <pthread.h>
 
 #define BUFLEN 10240                    // buffer length 
-#define APPEND 512                      //填充字符区大小
-#define NAMELEN 256                     //标签名字最大长度
-#define STACKSIZE 16                    //栈的深度
-#define THREADNUM 10                    //第二阶段解析并行的线程数
+#define APPEND 512                      // append char size
+#define NAMELEN 256                     // maxlength of tag
+#define STACKSIZE 16                    // depth of stack
+#define THREADNUM 10                    // concurrent thread number(for parsing xml)
 
+// boundary character/string type
 typedef enum Bcstype_t {  
     Stag_start,
     Etag_start,
-    PI_start,
-    Content,
-    CDSECT_start,
+    PI_start,     // Process Instruction 
+    Content,      // data
+    CDSECT_start, // CDATA
     COMMENT_start
 } Bcstype;
 
-typedef struct bcs_t {                   //标签节点的数据结构
-    int offset;                         //相对于该数据块的偏移
-    int taglen;                         //该标签的长度（计算结束位置）
-    Bcstype bt;                         //该标签的类型
-    struct bcs_t *next;
+typedef struct bcs_t {                   
+    int offset;                         // offset of the data block
+    int taglen;                         // length of the tag
+    Bcstype bt;                         // bcstype
+    struct bcs_t *next;                 // linked list of bcs
 } bcs;
 
-typedef struct bufferarry_t{            //缓冲区块的数据结构
-    char buf[BUFLEN + APPEND];          //存放读入的数据
-    bcs *bcsarr;                        //识别标签后存放结果的链表
-    int bufnum;                         //缓冲块块号
-    int buflen;                         //缓冲区所存数据长度
+typedef struct bufferarry_t {           // array of the buffers
+    char buf[BUFLEN + APPEND];          // save read data
+    bcs *bcsarr;                        // after preprocessing, save the result
+    int bufnum;                         // buffer number
+    int buflen;                         // buffer length
 
-    pthread_mutex_t mutex;              //互斥锁
+    pthread_mutex_t mutex;              
 
-    int START_STAGE1;                   //第1阶段开始处理该块时置1
-    int FINISH_STAGE1;                  //第1阶段处理完置1
+    int START_STAGE1;                   // set to 1 when start preprocessing
+    int FINISH_STAGE1;                  // set to 1 when finish preprocessing
 
-    int START_STAGE2;                   //第2阶段开始处理该块时置1
-    int FINISH_STAGE2;                  //第2阶段处理完置1
+    int START_STAGE2;                   // set to 1 when start processing
+    int FINISH_STAGE2;                  // set to 1 when finish processing
 
-    int START_STAGE3;                   //第3阶段开始处理该块时置1
-    int FINISH_STAGE3;                  //第3阶段处理完置1
+    int START_STAGE3;                   // set to 1 when start postprocessing
+    int FINISH_STAGE3;                  // set to 1 when finish postprocessing
 
-    struct bufferarry_t *next;          //下一个缓冲区块指针
+    struct bufferarry_t *next;          // next buffer pointer
 } bufferarray;
 
+/* 
+ * main
+ */
+char* printEnum(Bcstype type);
 
-char* printEnum(Bcstype type);                                                      //main.c
+/* 
+ * preprocessing
+ */
+bufferarray* mallocBuffer();  // allocate and init buffer
 
-//申请缓冲区并初始化
-bufferarray* mallocBuffer();                                                        //step1.c
-//字符串比较
-int strCmp(char *str,int start,int len,char str2[]);                                //step1.c
-//创建标记信息链表
-bcs* bcsnode(Bcstype type,int offset);                                              //step1.c
-//分析数据块，找到个标签的位置并存入链表中
-bufferarray* analizeBlock(bufferarray *block, int blocknum, int buflen);            //step1.c
+int strCmp(char *str,int start,int len,char str2[]); // compare string
 
+bcs* bcsnode(Bcstype type,int offset);    // create bcs node
 
+bufferarray* analizeBlock(bufferarray *block, int blocknum, int buflen);            // analysis and save to linkedlist
+
+/* 
+ * processing
+ */
