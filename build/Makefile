@@ -4,6 +4,8 @@ LDFLAGS = -lpthread
 CC = gcc
 
 core_SRCS += $(SRC_ROOT)/preprocess.c
+core_SRCS += $(SRC_ROOT)/processing.c
+core_SRCS += $(SRC_ROOT)/postprocess.c
 core_SRCS += $(SRC_ROOT)/main.c
 core_OBJS := $(core_SRCS:%.c=%.o)
 

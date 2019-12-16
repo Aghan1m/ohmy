@@ -4,57 +4,15 @@
 
 #include "def.h"
 
-int main(int argc, char ** argv)
-{
-    pthread_t pt[THREADNUM];
-    int result[THREADNUM];
-    int readCount, blocknum=0;
-    bufferarray *bufhead = NULL;
-    bufferarray *buf, *tmp;
-    FILE *fp;
+pthread_t pt[THREADNUM];
+int result[THREADNUM];
+int readCount, blocknum=0;
+bufferarray *bufhead = NULL;
+bufferarray *buf, *tmp;
+FILE *fp;
 	
-	// open xml file
-    // fp = fopen("../test/test.xml","r");
-    fp = fopen(argv[1],"r");
-
-    // first buffer
-    tmp = mallocBuffer();
-
-    // read data to buffer and analyse
-    while((readCount = fread(tmp->buf, sizeof(char), BUFLEN, fp)) > 0) {
-        if(blocknum > 0) {
-            buf->next = analizeBlock(tmp, blocknum++, readCount);
-            buf = buf->next;
-        } else{  // handle first buffer
-            bufhead = analizeBlock(tmp, blocknum++, readCount);
-            buf = bufhead;
-        }
-        tmp = mallocBuffer();
-    }
-    fclose(fp);
-    printf("\n\tThe first preprocessing work done! Divide data into %d blocks！\n\n", blocknum);
-
-// test preprocessing
-//    bcs *r;
-//    buf = bufhead;
-//    while(buf != NULL){
-//        r = buf->bcsarr;
-//        printf("start block nums:%d\n",buf->bufnum);
-//        while(r != NULL){
-//            printf("blocknumber [%d], offset [%d], Tagtype [%s]\n", buf->bufnum, r->offset, printEnum(r->bt));
-//            r = r->next;
-//        }
-//        buf = buf->next;
-//    }
-
-// ---------------------------------------------
-
-
-}
-
-// print tag
-char* printEnum(Bcstype type){
-    switch(type){
+char* printEnum(Bcstype type) {
+    switch(type) {
         case Stag_start:
             return "Stag";
         case Etag_start:
@@ -71,3 +29,57 @@ char* printEnum(Bcstype type){
             return "Tag";
     }
 }
+
+// parse each block of xml
+void step_one() {
+	// first buffer
+    tmp = mallocBuffer();
+
+    // read data to buffer and analyse
+    while((readCount = fread(tmp->buf, sizeof(char), BUFLEN, fp)) > 0) {
+        if(blocknum > 0) {
+            buf->next = analizeBlock(tmp, blocknum++, readCount);
+            buf = buf->next;
+        } else{  // handle first buffer
+            bufhead = analizeBlock(tmp, blocknum++, readCount);
+            buf = bufhead;
+        }
+        tmp = mallocBuffer();
+    }
+    fclose(fp);
+    printf("\n\tThe first preprocessing work done! Divide data into %d blocks！\n\n", blocknum);
+}
+
+// multithread handle blocks
+void step_two() {
+    int i;
+    buf = bufhead;
+    for(i=0; i<THREADNUM; i++) {
+		// TODO result
+        result[i] = pthread_create(&(pt[i]), NULL, processing, (void*)buf);
+        buf = buf->next;
+        if(result[i] != 0){
+            printf("create pthread error!\n");
+            exit(-1);
+        }
+    }
+	// concurrent execute
+    for(i=0; i<THREADNUM; i++) { 
+        pthread_join(pt[i], NULL);
+    }
+    printf("\t第二阶段多线程处理完毕！ 并行线程数为%d个!\n\n", THREADNUM);
+}
+
+void step_three() {
+
+}
+
+int main(int argc, char ** argv) {
+    fp = fopen("../test/test.xml","r");
+    //fp = fopen(argv[1],"r");
+	step_one();
+	step_two();
+	step_three();
+}
+
+
