@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#nclude <string.h>
+#include <string.h>
 
 #include "def.h"
 
@@ -43,7 +43,7 @@ char* getname(char* strarr, char* str, char ch) {
 }
 
 char* getTagName(char* strarr, char* str, Bcstype bt) {  
-	printf("getTagName bt:%d\n", bt);
+//	printf("getTagName bt:%d\n", bt);
     switch(bt){
         case Stag_start:
             getname(strarr, str,'>');
@@ -51,7 +51,7 @@ char* getTagName(char* strarr, char* str, Bcstype bt) {
         case Etag_start:
             getname(strarr, str+1,'>');
             break;
-/*  //其它标签检验内容的合规性
+/*  //
         case PI_start:
 
             break;
@@ -76,7 +76,7 @@ void stackInOut(bufferarray *block, char* loc, Bcstype bt, stack* st) {
     char *str = (char*)malloc(NAMELEN * sizeof(char));
     strcpy(str, getTagName(str, loc, bt));
     if(st->top>-1 && strcmp(str, st->data[st->top]->tagname) == 0) { // stack not empty and match the top elem
-        printf("block number:%d\ttop element before pop stack:%s\tsize of current stack:%d\n", block->bufnum, st->data[st->top]->tagname, st->top+1);
+//        printf("block number:%d\ttop element before pop stack:%s\tsize of current stack:%d\n", block->bufnum, st->data[st->top]->tagname, st->top+1);
         lable *delnode = Pop(st);
         free(delnode);
         free(str);
@@ -85,7 +85,7 @@ void stackInOut(bufferarray *block, char* loc, Bcstype bt, stack* st) {
 			return;
         lable* node = creatData(str, bt);
         Push(st, node);
-        printf("block number:%d\ttop element after push stack:%s\tsize of current stack%d\n", block->bufnum, str,st->top+1);
+ //       printf("block number:%d\ttop element after push stack:%s\tsize of current stack%d\n", block->bufnum, str,st->top+1);
     }
 }
 
@@ -177,15 +177,15 @@ void stackMatching(bufferarray *block) {
         }// */
 
         printf("third phase: block number%d\t not empty stack! size of the stack:%d\n", block->bufnum, st->top+1);//st->data[st->top]->tagname);
-        //lab* tmp = ListNode(block->bufnum, st->data[0]);
-        //int m = 1;
-        //while(m <= st->top){
-        //    tmp = addLabNode(tmp,st->data[m++]);
-        //}
-        //while(st->top > -1){
-        //    node = Pop(st);
-        //    free(node);
-        //}
+        lab* tmp = ListNode(block->bufnum, st->data[0]);
+        int m = 1;
+        while(m <= st->top){
+            tmp = addLabNode(tmp,st->data[m++]);
+        }
+        while(st->top > -1){
+            node = Pop(st);
+            free(node);
+        }
     } else {
         printf("block buffer number:%d\tempty stack.\n", block->bufnum);
     }
